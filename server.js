@@ -3,18 +3,19 @@ const path       = require('path');
 var cors         = require('cors');
 const express    = require('express');
 const mongoose   = require('mongoose');
-const apiRoutes = require('./routes');
+const apiRoutes  = require('./routes');
 
 
 const app        = express()
-const port       = process.env.PORT || 3200
+const port       = 3500 || process.env.PORT 
 
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log("Conectado a la base de datos de MongoDB Atlas"))
     .catch(() => console.error("Error de conexión a la base de datos"))
 
-app.use(cors());
-app.use(express.json());
+// MIDDLEWARE
+app.use(cors());                       //soporte para CORS
+app.use(express.json());               //Importante poner esto antes de las rutas
 app.use('/api', apiRoutes);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -22,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
     res.send("hola")
 })*/
 
-
+//servidor web
 app.listen(port, () => {
     console.log(`Servidor iniciado en http://localhost:${port}`);
 })
